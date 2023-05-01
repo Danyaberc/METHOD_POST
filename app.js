@@ -6,8 +6,8 @@ const indexRouter = require('./routes/main')
 server.set('view engine', 'ejs')
 server.set('views', __dirname + '/views/pages')
 
-server.use(express.json());
-server.use(express.urlencoded({ exntended: true }));
+server.use(express.json())
+server.use(express.urlencoded({extended: false}))
 
 server.use(express.static(__dirname + '/public'))
 

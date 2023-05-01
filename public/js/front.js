@@ -1,44 +1,25 @@
 console.log('IT`S FRONT JS')
-const container = document.querySelector('.container')
 const general = document.querySelector('.general')
+const name_inp = document.querySelector('.name_inp')
+const text_inp = document.querySelector('.text_inp')
+const submit_but = document.querySelector('.submit_but')
 //MODEL
 
 //CONTROLLER
-const methodPost = async (event) => {
-   event.preventDefault();// Зупиняємо перезагрузку після відправки данних
-
-   // Створюємо об'єкт формдата яка буде зчитувати дані в формі
-   const formData = new FormData(event.target);
-
-   //Отримуємо значення полей форми з допомогою метода get
-   const title = formData.get('title');
-   const text = formData.get('text');
-
-   const response = await axios.post('/articles', { title, text });
-
-   general.innerHTML = `
-      <p>Назва:${res.data.title}</p>
-      <p>Текст:${res.data.text}</p>
-   `
+const run = async (name, text) => {
+   const arrInfo = await axios.post('/ajax', { name: name, text: text })
+   renderPage(arrInfo)
 }
-
-const methodGet = async () => {
-   const result = await axios.get('/articles');
-   result.data.forEach(item => {
-      container.innerHTML = `
-      <form>
-         <input type = "text" placeholder ="Введіть Назву""${item.title}" ></input><br>
-         <input type = "text" placeholder ="Введіть Текст""${item.text}" ></input><br>
-         <input type = "submit"></input>
-      </form>
-      <div class ="general"></div>
-      `
-   }).join('')
-
-}
-
 //VIEW
-
+const renderPage = async (arrInfo) => {
+   general.innerHTML = ''
+   arrInfo.data.forEach(element => {
+      general.innerHTML += `<div>${element.name}${element.text}</div>`
+   })
+}
 //RUNNER
-methodPost()
-methodGet()
+
+submit_but.addEventListener('click', (event) => {
+   event.preventDefault();
+   run(name_inp.value, text_inp.value)
+})

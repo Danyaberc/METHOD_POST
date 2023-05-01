@@ -1,26 +1,17 @@
 const express = require('express')
 const router = express.Router()
 
-
-
 router.get('/', (req, res) => {
    res.render('index')
 })
 
-const articles =
-   [
-      { title: '' },
-      { text: '' },
-   ]
+const arrInfo = []
 
-router.get('/articles', (req, res) => {
-   res.json(articles)
+console.log(arrInfo)
+
+router.post('/ajax', (req, res) => {
+   arrInfo.push({ name: req.body.name, text: req.body.text })
+   res.json(arrInfo)
 })
-
-router.post('/articles', (req, res) => {
-   res.json(articles)
-})
-
-
 
 module.exports = router
